@@ -1629,7 +1629,7 @@ OMX_ERRORTYPE omx_vdec::component_init(OMX_STRING role)
         codec_type_parse = CODEC_TYPE_H264;
         m_frame_parser.init_start_codes (codec_type_parse);
         m_frame_parser.init_nal_length(nal_length);
-#ifndef VDEC_CODECTYPE_MVC
+#ifdef VDEC_CODECTYPE_MVC
     } else if (!strncmp(drv_ctx.kind, "OMX.qcom.video.decoder.mvc",\
                 OMX_MAX_STRINGNAME_SIZE)) {
         strlcpy((char *)m_cRole, "video_decoder.mvc", OMX_MAX_STRINGNAME_SIZE);
@@ -1842,7 +1842,7 @@ OMX_ERRORTYPE omx_vdec::component_init(OMX_STRING role)
         DEBUG_PRINT_HIGH("Input Buffer Size =%d",drv_ctx.ip_buf.buffer_size);
         get_buffer_req(&drv_ctx.op_buf);
         if (drv_ctx.decoder_format == VDEC_CODECTYPE_H264 ||
-#ifndef OMX_NO_MEVC
+#ifdef VDEC_CODECTYPE_MVC
                 drv_ctx.decoder_format == VDEC_CODECTYPE_HEVC ||
                 drv_ctx.decoder_format == VDEC_CODECTYPE_MVC) {
 #else
@@ -1858,7 +1858,7 @@ OMX_ERRORTYPE omx_vdec::component_init(OMX_STRING role)
                         return OMX_ErrorInsufficientResources;
                     }
         }
-#ifndef OMX_NO_MEVC
+#ifdef VDEC_CODECTYPE_MVC
         if (drv_ctx.decoder_format == VDEC_CODECTYPE_H264 ||
             drv_ctx.decoder_format == VDEC_CODECTYPE_MVC) {
 #else
@@ -9660,7 +9660,7 @@ bool omx_vdec::allocate_color_convert_buf::set_color_format(
     }
     pthread_mutex_lock(&omx->c_lock);
     if (omx->drv_ctx.output_format == VDEC_YUV_FORMAT_NV12)
-#ifndef VDEC_CODECTYPE_MVC
+#ifdef VDEC_CODECTYPE_MVC
         if (omx->drv_ctx.decoder_format == VDEC_CODECTYPE_MVC)
             drv_color_format = (OMX_COLOR_FORMATTYPE)
                 QOMX_COLOR_FORMATYUV420PackedSemiPlanar32mMultiView;
@@ -9925,10 +9925,12 @@ bool omx_vdec::allocate_color_convert_buf::get_color_format(OMX_COLOR_FORMATTYPE
     bool status = true;
     if (!enabled) {
         if (omx->drv_ctx.output_format == VDEC_YUV_FORMAT_NV12)
+#ifdef VDEC_CODECTYPE_MVC
             if (omx->drv_ctx.decoder_format == VDEC_CODECTYPE_MVC)
                     dest_color_format = (OMX_COLOR_FORMATTYPE)
                         QOMX_COLOR_FORMATYUV420PackedSemiPlanar32mMultiView;
                 else
+#endif
             dest_color_format =  (OMX_COLOR_FORMATTYPE)
                 QOMX_COLOR_FORMATYUV420PackedSemiPlanar32m;
         else
