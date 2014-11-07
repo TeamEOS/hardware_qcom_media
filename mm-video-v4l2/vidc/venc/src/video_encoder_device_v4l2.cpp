@@ -1557,6 +1557,7 @@ bool venc_dev::venc_set_param(void *paramData,OMX_INDEXTYPE index )
 
                 break;
             }
+#ifdef V4L2_CID_MPEG_VIDC_VIDEO_ENABLE_INITIAL_QP
         case QOMX_IndexParamVideoInitialQp:
             {
                 QOMX_EXTNINDEX_VIDEO_INITIALQP * initqp =
@@ -1571,6 +1572,7 @@ bool venc_dev::venc_set_param(void *paramData,OMX_INDEXTYPE index )
                     DEBUG_PRINT_ERROR("ERROR: setting QOMX_IndexParamVideoEnableInitialQp");
                 break;
             }
+#endif
         case OMX_QcomIndexParamVideoQPRange:
             {
                 DEBUG_PRINT_LOW("venc_set_param:OMX_QcomIndexParamVideoQPRange");
@@ -2659,6 +2661,7 @@ bool venc_dev::venc_set_slice_delivery_mode(OMX_U32 enable)
     return true;
 }
 
+#ifdef V4L2_CID_MPEG_VIDC_VIDEO_ENABLE_INITIAL_QP
 bool venc_dev::venc_enable_initial_qp(QOMX_EXTNINDEX_VIDEO_INITIALQP* initqp)
 {
     int rc;
@@ -2703,6 +2706,7 @@ bool venc_dev::venc_enable_initial_qp(QOMX_EXTNINDEX_VIDEO_INITIALQP* initqp)
                     controls.controls[3].id, controls.controls[3].value);
     return true;
 }
+#endif
 
 bool venc_dev::venc_set_session_qp(OMX_U32 i_frame_qp, OMX_U32 p_frame_qp,OMX_U32 b_frame_qp)
 {
