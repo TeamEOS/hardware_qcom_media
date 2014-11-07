@@ -2057,6 +2057,7 @@ unsigned venc_dev::venc_start(void)
 
     streaming[CAPTURE_PORT] = true;
 
+#ifdef V4L2_CID_MPEG_VIDC_VIDEO_REQUEST_SEQ_HEADER
     control.id = V4L2_CID_MPEG_VIDC_VIDEO_REQUEST_SEQ_HEADER;
     control.value = 1;
     ret = ioctl(m_nDriver_fd, VIDIOC_S_CTRL, &control);
@@ -2064,6 +2065,7 @@ unsigned venc_dev::venc_start(void)
         DEBUG_PRINT_ERROR("failed to request seq header");
         return 1;
     }
+#endif
 
     stopped = 0;
     return 0;
