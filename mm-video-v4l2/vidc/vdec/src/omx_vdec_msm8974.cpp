@@ -8936,11 +8936,13 @@ OMX_ERRORTYPE omx_vdec::enable_extradata(OMX_U32 requested_extradata,
             if (ioctl(drv_ctx.video_driver_fd, VIDIOC_S_CTRL, &control)) {
                 DEBUG_PRINT_HIGH("Failed to set panscan extradata");
             }
+#ifdef V4L2_MPEG_VIDC_EXTRADATA_ASPECT_RATIO
             control.id = V4L2_CID_MPEG_VIDC_VIDEO_EXTRADATA;
             control.value = V4L2_MPEG_VIDC_EXTRADATA_ASPECT_RATIO;
             if (ioctl(drv_ctx.video_driver_fd, VIDIOC_S_CTRL, &control)) {
                 DEBUG_PRINT_HIGH("Failed to set panscan extradata");
             }
+#endif
             if (output_capability == V4L2_PIX_FMT_MPEG2) {
                 control.id = V4L2_CID_MPEG_VIDC_VIDEO_EXTRADATA;
                 control.value =  V4L2_MPEG_VIDC_EXTRADATA_MPEG2_SEQDISP;
