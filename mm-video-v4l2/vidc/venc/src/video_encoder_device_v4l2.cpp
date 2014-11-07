@@ -1194,6 +1194,7 @@ bool venc_dev::venc_set_param(void *paramData,OMX_INDEXTYPE index )
                     if (!venc_set_color_format(portDefn->format.video.eColorFormat)) {
                         return false;
                     }
+#ifdef V4L2_CID_MPEG_VIDC_VIDEO_IFRAME_X_RANGE
                     if ((display_info.w * display_info.h) > (OMX_CORE_720P_WIDTH * OMX_CORE_720P_HEIGHT)
                         && enable_mv_narrow_searchrange &&
                         (m_sVenc_cfg.input_width * m_sVenc_cfg.input_height) >=
@@ -1202,6 +1203,7 @@ bool venc_dev::venc_set_param(void *paramData,OMX_INDEXTYPE index )
                             DEBUG_PRINT_ERROR("ERROR: Failed to set search range");
                         }
                     }
+#endif
                     if (m_sVenc_cfg.input_height != portDefn->format.video.nFrameHeight ||
                             m_sVenc_cfg.input_width != portDefn->format.video.nFrameWidth) {
                         DEBUG_PRINT_LOW("Basic parameter has changed");
@@ -1729,6 +1731,7 @@ bool venc_dev::venc_set_param(void *paramData,OMX_INDEXTYPE index )
                 }
                 break;
             }
+#ifdef V4L2_CID_MPEG_VIDC_VIDEO_IFRAME_X_RANGE
        case OMX_QcomIndexParamSetMVSearchrange:
             {
                DEBUG_PRINT_LOW("venc_set_config: OMX_QcomIndexParamSetMVSearchrange");
@@ -1739,6 +1742,7 @@ bool venc_dev::venc_set_param(void *paramData,OMX_INDEXTYPE index )
                }
             }
             break;
+#endif
         case OMX_IndexParamVideoSliceFMO:
         default:
             DEBUG_PRINT_ERROR("ERROR: Unsupported parameter in venc_set_param: %u",
@@ -3817,6 +3821,7 @@ bool venc_dev::venc_set_vpe_rotation(OMX_S32 rotation_angle)
     return true;
 }
 
+#ifdef V4L2_CID_MPEG_VIDC_VIDEO_IFRAME_X_RANGE
 bool venc_dev::venc_set_searchrange()
 {
     DEBUG_PRINT_LOW("venc_set_searchrange");
@@ -3891,6 +3896,7 @@ bool venc_dev::venc_set_searchrange()
     }
     return true;
 }
+#endif
 
 bool venc_dev::venc_set_ratectrl_cfg(OMX_VIDEO_CONTROLRATETYPE eControlRate)
 {
