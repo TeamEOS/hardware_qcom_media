@@ -8841,12 +8841,14 @@ void omx_vdec::handle_extradata(OMX_BUFFERHEADERTYPE *p_buf_hdr)
                         p_extra = (OMX_OTHER_EXTRADATATYPE *) (((OMX_U8 *) p_extra) + p_extra->nSize);
                     }
                     break;
+#ifdef MSM_VIDC_EXTRADATA_STREAM_USERDATA
                 case MSM_VIDC_EXTRADATA_STREAM_USERDATA:
                     if (client_extradata & OMX_EXTNUSER_EXTRADATA) {
                         append_user_extradata(p_extra, data);
                         p_extra = (OMX_OTHER_EXTRADATATYPE *) (((OMX_U8 *) p_extra) + p_extra->nSize);
                     }
                     break;
+#endif
                 default:
                     DEBUG_PRINT_LOW("Unrecognized extradata");
                     goto unrecognized_extradata;
@@ -8980,6 +8982,7 @@ OMX_ERRORTYPE omx_vdec::enable_extradata(OMX_U32 requested_extradata,
                 DEBUG_PRINT_HIGH("Failed to set frame bits info extradata");
             }
         }
+#ifdef V4L2_MPEG_VIDC_EXTRADATA_STREAM_USERDATA
         if (requested_extradata & OMX_EXTNUSER_EXTRADATA) {
             control.id = V4L2_CID_MPEG_VIDC_VIDEO_EXTRADATA;
             control.value = V4L2_MPEG_VIDC_EXTRADATA_STREAM_USERDATA;
@@ -8987,6 +8990,7 @@ OMX_ERRORTYPE omx_vdec::enable_extradata(OMX_U32 requested_extradata,
                 DEBUG_PRINT_HIGH("Failed to set stream userdata extradata");
             }
         }
+#endif
     }
     ret = get_buffer_req(&drv_ctx.op_buf);
     return ret;
