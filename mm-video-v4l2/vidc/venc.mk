@@ -68,6 +68,10 @@ ifeq ($(TARGET_USES_ION),true)
 libmm-venc-def += -DUSE_ION
 endif
 
+ifeq ($(TARGET_USES_LEGACY_HEAP_MASK),true)
+libmm-venc-def += -D_ION_HEAP_MASK_COMPATIBILITY_WA
+endif
+
 venc-inc       = $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 
 libmm-venc-def += -D_ANDROID_ICS_

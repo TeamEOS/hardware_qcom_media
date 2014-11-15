@@ -82,6 +82,10 @@ ifeq ($(TARGET_USES_ION),true)
 libOmxVdec-def += -DUSE_ION
 endif
 
+ifeq ($(TARGET_USES_LEGACY_HEAP_MASK),true)
+libOmxVdec-def += -D_ION_HEAP_MASK_COMPATIBILITY_WA
+endif
+
 vdec-inc       = $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
 
 # ---------------------------------------------------------------------------------
