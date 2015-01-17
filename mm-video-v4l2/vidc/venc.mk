@@ -94,7 +94,10 @@ libmm-venc-inc      += frameworks/native/include/media/openmax
 libmm-venc-inc      += $(call project-path-for,qcom-media)/libc2dcolorconvert
 libmm-venc-inc      += frameworks/av/include/media/stagefright
 libmm-venc-inc      += frameworks/av/include/media/hardware
+
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 libmm-venc-inc      += $(venc-inc)
+endif
 
 LOCAL_MODULE                    := libOmxVenc
 LOCAL_MODULE_TAGS               := optional
@@ -115,7 +118,9 @@ endif
 
 LOCAL_SRC_FILES   += common/src/extra_data_handler.cpp
 
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 LOCAL_ADDITIONAL_DEPENDENCIES  := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 
 include $(BUILD_SHARED_LIBRARY)
 

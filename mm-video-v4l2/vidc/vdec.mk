@@ -106,7 +106,11 @@ libmm-vdec-inc          += $(TARGET_OUT_HEADERS)/qcom/display
 libmm-vdec-inc          += $(TARGET_OUT_HEADERS)/adreno
 libmm-vdec-inc          += frameworks/native/include/media/openmax
 libmm-vdec-inc          += frameworks/native/include/media/hardware
+
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 libmm-vdec-inc          += $(vdec-inc)
+endif
+
 libmm-vdec-inc      += $(call project-path-for,qcom-media)/libc2dcolorconvert
 libmm-vdec-inc      += frameworks/av/include/media/stagefright
 
@@ -139,7 +143,9 @@ endif
 LOCAL_SRC_FILES         += common/src/extra_data_handler.cpp
 LOCAL_SRC_FILES         += common/src/vidc_color_converter.cpp
 
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 LOCAL_ADDITIONAL_DEPENDENCIES  := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 
 include $(BUILD_SHARED_LIBRARY)
 
@@ -156,7 +162,10 @@ ifneq ($(filter msm8974 msm8610 msm8084 mpq8092,$(TARGET_BOARD_PLATFORM)),)
 LOCAL_MODULE                    := libOmxVdecHevc
 LOCAL_MODULE_TAGS               := optional
 LOCAL_CFLAGS                    := $(libOmxVdec-def)
+
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 LOCAL_C_INCLUDES                += $(libmm-vdec-inc)
+endif
 
 LOCAL_PRELINK_MODULE    := false
 LOCAL_SHARED_LIBRARIES  := liblog libutils libbinder libcutils libdl
@@ -175,7 +184,9 @@ LOCAL_SRC_FILES         += vdec/src/hevc_utils.cpp
 LOCAL_SRC_FILES         += common/src/extra_data_handler.cpp
 LOCAL_SRC_FILES         += common/src/vidc_color_converter.cpp
 
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 LOCAL_ADDITIONAL_DEPENDENCIES  := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 
 #include $(BUILD_SHARED_LIBRARY)
 
@@ -210,7 +221,10 @@ include $(CLEAR_VARS)
 
 mm-vdec-drv-test-inc    := $(call project-path-for,qcom-media)/mm-core/inc
 mm-vdec-drv-test-inc    += $(LOCAL_PATH)/vdec/inc
+
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 mm-vdec-drv-test-inc    += $(vdec-inc)
+endif
 
 LOCAL_MODULE                    := mm-video-driver-test
 LOCAL_MODULE_TAGS               := optional
@@ -221,7 +235,9 @@ LOCAL_PRELINK_MODULE            := false
 LOCAL_SRC_FILES                 := vdec/src/message_queue.c
 LOCAL_SRC_FILES                 += vdec/test/decoder_driver_test.c
 
+ifneq ($(TARGET_NO_KERNEL_HEADER_INCLUSION),true)
 LOCAL_ADDITIONAL_DEPENDENCIES  := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+endif
 
 #include $(BUILD_EXECUTABLE)
 
